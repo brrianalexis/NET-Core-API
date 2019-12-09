@@ -32,7 +32,7 @@ namespace ContosoAPI.Models
         public int Capacity { get; set; }
 
         [BsonElement("Instructors")]
-        public Array Instructors { get; set; }
+        public string Instructor { get; set; }
 
         [BsonElement("Date")]
         public BsonDateTime Date { get; set; }

@@ -14,7 +14,7 @@ namespace ContosoAPI.Services
             var client = new MongoClient(settings.ConnectionString);
             var database = client.GetDatabase(settings.DatabaseName);
 
-            _courses = database.GetCollection<Courses>(settings.ContosoCollectionName);
+            _courses = database.GetCollection<Courses>(settings.CoursesCollectionName);
         }
 
         //  C

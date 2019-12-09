@@ -13,8 +13,9 @@ using Microsoft.Extensions.Hosting;
 //  MongoDB
 using MongoDB.Driver;
 using MongoDB.Bson;
-using Microsoft.Extensions.Options;
 using ContosoAPI.Models;
+using Microsoft.Extensions.Options;
+using Newtonsoft.Json;
 using ContosoAPI.Services;
 
 namespace ContosoAPI
