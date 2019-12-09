@@ -9,9 +9,15 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 
-namespace NET_Core_API
+//  MongoDB
+using MongoDB.Driver;
+using MongoDB.Bson;
+using Microsoft.Extensions.Options;
+using ContosoAPI.Models;
+using ContosoAPI.Services;
+
+namespace ContosoAPI
 {
     public class Startup
     {
@@ -25,6 +31,9 @@ namespace NET_Core_API
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.Configure<ContosoDBSettings>(Configuration.GetSection(nameof(ContosoDBSettings)));
+            services.AddSingleton<IContosoDBSettings>(sp => sp.GetRequiredService<IOptions<ContosoDBSettings>>().Value);
+            services.AddSingleton<CoursesService>();
             services.AddControllers();
         }
 
