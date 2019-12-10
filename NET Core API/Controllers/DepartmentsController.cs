@@ -1,46 +1,80 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using ContosoAPI.Models;
+using ContosoAPI.Services;
 using Microsoft.AspNetCore.Mvc;
-
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+using System.Collections.Generic;
 
 namespace ContosoAPI.Controllers
 {
     [Route("api/[controller]")]
+    [ApiController]
     public class DepartmentsController : Controller
     {
-        // GET: api/<controller>
-        [HttpGet]
-        public IEnumerable<string> Get()
+        private readonly DepartmentsService _departmentsService;
+
+        public DepartmentsController(DepartmentsService departmentsService)
         {
-            return new string[] { "value1", "value2" };
+            _departmentsService = departmentsService;
         }
 
-        // GET api/<controller>/5
-        [HttpGet("{id}")]
-        public string Get(int id)
-        {
-            return "value";
-        }
-
-        // POST api/<controller>
+        //  C
+        //  POST api/<controller>
         [HttpPost]
-        public void Post([FromBody]string value)
+        public ActionResult<Departments> Create(Departments department)
         {
+            _departmentsService.Create(department);
+            return CreatedAtRoute("PostDepartment", department);
         }
 
-        // PUT api/<controller>/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody]string value)
+        //  R
+        //  GET: api/<controller>
+        [HttpGet]
+        public ActionResult<List<Departments>> Get() =>
+            _departmentsService.Get();
+
+        //  GET api/<controller>/5
+        [HttpGet("{id:length(24)}", Name = "GetDepartment")]
+        public ActionResult<Departments> Get(string id)
         {
+            var department = _departmentsService.Get(id);
+
+            if (department == null)
+            {
+                return NotFound();
+            }
+
+            return department;
         }
 
-        // DELETE api/<controller>/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
+        //  U
+        //  PUT api/<controller>/5
+        [HttpPut("{id:length(24)}")]
+        public IActionResult Update(string id, Departments departmentIn)
         {
+            var department = _departmentsService.Get(id);
+
+            if (department == null)
+            {
+                return NotFound();
+            }
+
+            _departmentsService.Update(id, departmentIn);
+            return NoContent();
+        }
+
+        //  D
+        //  DELETE api/<controller>/5
+        [HttpDelete("{id:length(24)}")]
+        public IActionResult Delete(string id)
+        {
+            var department = _departmentsService.Get(id);
+
+            if (department == null)
+            {
+                return NotFound();
+            }
+
+            _departmentsService.Remove(department.Id);
+            return NoContent();
         }
     }
 }

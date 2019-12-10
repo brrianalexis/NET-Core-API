@@ -17,7 +17,7 @@
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
     },
-    "NET_Core_API": {
+    "ContosoAPI": {
       "commandName": "Project",
       "launchBrowser": false,
       "launchUrl": "api/courses",

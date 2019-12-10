@@ -10,7 +10,7 @@ using MongoDB.Driver;
 
 namespace ContosoAPI.Models
 {
-    public class Courses
+    public class Departments
     {
         [BsonId]
         [BsonRepresentation(BsonType.ObjectId)]
@@ -19,23 +19,10 @@ namespace ContosoAPI.Models
         [BsonElement("Title")]
         public string Title { get; set; }
 
-        [BsonElement("Department")]
-        public string Department { get; set; }
-
         [BsonElement("Description")]
         public string Description { get; set; }
 
-        [BsonElement("Credits")]
-        public int Credits { get; set; }
-
-        [BsonElement("Capacity")]
-        public int Capacity { get; set; }
-
-        [BsonElement("Instructors")]
-        public string Instructor { get; set; }
-
-        [BsonElement("Date")]
-        //      Haga lo que haga, lo guarda en UTC y no en local
+        [BsonElement]
         [BsonDateTimeOptions(Kind = DateTimeKind.Local)]
         public DateTime Date { get; set; } = DateTime.Now.ToLocalTime();
     }
