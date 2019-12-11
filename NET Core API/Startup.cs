@@ -35,6 +35,11 @@ namespace ContosoAPI
             services.Configure<ContosoDBSettings>(Configuration.GetSection(nameof(ContosoDBSettings)));
             services.AddSingleton<IContosoDBSettings>(sp => sp.GetRequiredService<IOptions<ContosoDBSettings>>().Value);
             services.AddSingleton<CoursesService>();
+            //  Test
+            services.AddSingleton<DepartmentsService>();
+            services.AddSingleton<InstructorsService>();
+            services.AddSingleton<StudentsService>();
+            //services.AddSingleton<CoursesService>();
             services.AddControllers();
         }
 

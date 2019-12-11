@@ -23,7 +23,7 @@ namespace ContosoAPI.Models
         public string Description { get; set; }
 
         [BsonElement]
-        [BsonDateTimeOptions(Kind = DateTimeKind.Local)]
-        public DateTime Date { get; set; }
+        [BsonDateTimeOptions(Kind = DateTimeKind.Utc)]
+        public DateTime Date { get; set; } = DateTime.UtcNow;
     }
 }

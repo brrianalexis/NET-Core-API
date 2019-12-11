@@ -36,7 +36,7 @@ namespace ContosoAPI.Models
 
         [BsonElement("Date")]
         //      Haga lo que haga, lo guarda en UTC y no en local
-        [BsonDateTimeOptions(Kind = DateTimeKind.Local)]
-        public DateTime Date { get; set; }
+        [BsonDateTimeOptions(Kind = DateTimeKind.Utc)]
+        public DateTime Date { get; set; } = DateTime.UtcNow;
     }
 }
