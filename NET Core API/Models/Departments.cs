@@ -24,6 +24,6 @@ namespace ContosoAPI.Models
 
         [BsonElement]
         [BsonDateTimeOptions(Kind = DateTimeKind.Local)]
-        public DateTime Date { get; set; } = DateTime.Now.ToLocalTime();
+        public DateTime Date { get; set; }
     }
 }

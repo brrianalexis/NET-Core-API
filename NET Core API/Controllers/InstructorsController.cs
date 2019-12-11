@@ -1,46 +1,79 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using ContosoAPI.Models;
+using ContosoAPI.Services;
 using Microsoft.AspNetCore.Mvc;
-
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+using System.Collections.Generic;
 
 namespace ContosoAPI.Controllers
 {
     [Route("api/[controller]")]
+    [ApiController]
     public class InstructorsController : Controller
     {
-        // GET: api/<controller>
-        [HttpGet]
-        public IEnumerable<string> Get()
+        private readonly InstructorsService _instructorsService;
+
+        public InstructorsController(InstructorsService instructorsService)
         {
-            return new string[] { "value1", "value2" };
+            _instructorsService = instructorsService;
         }
 
-        // GET api/<controller>/5
-        [HttpGet("{id}")]
-        public string Get(int id)
-        {
-            return "value";
-        }
-
-        // POST api/<controller>
+        //  C
+        //  POST api/<controller>
         [HttpPost]
-        public void Post([FromBody]string value)
+        public ActionResult<Instructors> Create(Instructors instructor)
         {
+            _instructorsService.Create(instructor);
+            return Ok();
         }
 
-        // PUT api/<controller>/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody]string value)
+        //  R
+        //  GET: api/<controller>
+        [HttpGet]
+        public ActionResult<List<Instructors>> Get() =>
+            _instructorsService.Get();
+
+        [HttpGet("{id:length(24)}", Name = "GetInstructor")]
+        public ActionResult<Instructors> Get(string id)
         {
+            var instructor = _instructorsService.Get(id);
+
+            if (instructor == null)
+            {
+                return NotFound();
+            }
+
+            return instructor;
         }
 
-        // DELETE api/<controller>/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
+        //  U
+        //  PUT api/<controller>/5
+        [HttpPut("{id:length(24)}")]
+        public IActionResult Update(string id, Instructors instructorIn)
         {
+            var instructor = _instructorsService.Get(id);
+
+            if (instructor == null)
+            {
+                return NotFound();
+            }
+
+            _instructorsService.Update(id, instructorIn);
+            return NoContent();
+        }
+
+        //  D
+        //  DELETE api/<controller>/5
+        [HttpDelete("{id:length(24)}")]
+        public IActionResult Delete(string id)
+        {
+            var instructor = _instructorsService.Get(id);
+
+            if (instructor == null)
+            {
+                return NotFound();
+            }
+
+            _instructorsService.Remove(instructor.Id);
+            return NoContent();
         }
     }
 }

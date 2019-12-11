@@ -22,7 +22,7 @@ namespace ContosoAPI.Controllers
         public ActionResult<Courses> Create(Courses course)
         {
             _coursesService.Create(course);
-            return CreatedAtRoute("PostCourse", course);
+            return Ok();
         }
 
         //  R
