@@ -27,19 +27,31 @@ namespace ContosoAPI
             Configuration = configuration;
         }
 
+        private readonly string MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
         public IConfiguration Configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddCors(options =>
+            {
+                options.AddPolicy(MyAllowSpecificOrigins, builder =>
+                {
+                    builder.WithOrigins("http://localhost:3000", "http://localhost")
+                    .AllowAnyHeader()
+                    .AllowAnyMethod();
+                });
+            });
+
+            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
+
             services.Configure<ContosoDBSettings>(Configuration.GetSection(nameof(ContosoDBSettings)));
             services.AddSingleton<IContosoDBSettings>(sp => sp.GetRequiredService<IOptions<ContosoDBSettings>>().Value);
             services.AddSingleton<CoursesService>();
-            //  Test
             services.AddSingleton<DepartmentsService>();
             services.AddSingleton<InstructorsService>();
             services.AddSingleton<StudentsService>();
-            //services.AddSingleton<CoursesService>();
+            //services.AddSingleton<UsersService>();
             services.AddControllers();
         }
 
@@ -50,12 +62,18 @@ namespace ContosoAPI
             {
                 app.UseDeveloperExceptionPage();
             }
+            else
+            {
+                app.UseHsts();
+            }
 
             app.UseHttpsRedirection();
 
+            app.UseAuthorization();
+
             app.UseRouting();
 
-            app.UseAuthorization();
+            app.UseCors(MyAllowSpecificOrigins);
 
             app.UseEndpoints(endpoints =>
             {

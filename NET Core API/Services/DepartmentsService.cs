@@ -34,6 +34,7 @@ namespace ContosoAPI.Services
         //  U
         public void Update(string id, Departments departmentIn) =>
             _departments.ReplaceOne(department => department.Id == id, departmentIn);
+        //      Atención a esto. Pide que envíe sí o sí el id del objeto a actualizar
 
         public void Remove(Departments departmentIn) =>
             _departments.DeleteOne(department => department.Id == departmentIn.Id);
